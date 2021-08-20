@@ -1,2 +1,2 @@
 dev: 
-	go run src/main.go
+	~/go/bin/CompileDaemon -command="go run main.go"
