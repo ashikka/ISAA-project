@@ -29,7 +29,8 @@ func PostBlogs() gin.HandlerFunc {
 	var newBlog blogPost
 
 	return func(c *gin.Context) {
-		if err := c.BindJSON(&blogPosts); err != nil {
+
+		if err := c.BindJSON(&newBlog); err != nil {
 			return
 		}
 
