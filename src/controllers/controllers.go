@@ -19,8 +19,21 @@ var blogPosts = []blogPost{
 	{ID: "3", Title: "Sarah Vaughan and Clifford Brown", Author: "Sarah Vaughan", Content: "Something"},
 }
 
-func GetBlogs() gin.HandlerFunc{
+func GetBlogs() gin.HandlerFunc {
 	return func(c *gin.Context) {
-	c.IndentedJSON(http.StatusOK, blogPosts)
+		c.IndentedJSON(http.StatusOK, blogPosts)
+	}
+}
+
+func PostBlogs() gin.HandlerFunc {
+	var newBlog blogPost
+
+	return func(c *gin.Context) {
+		if err := c.BindJSON(&blogPosts); err != nil {
+			return
+		}
+
+		blogPosts = append(blogPosts, newBlog)
+		c.IndentedJSON(http.StatusCreated, newBlog)
 	}
 }
