@@ -6,10 +6,21 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func PingGet() gin.HandlerFunc{
+type blogPost struct {
+	ID      string `json:"id"`
+	Title   string `json:"title"`
+	Author  string `json:"author"`
+	Content string `json:"content"`
+}
+
+var blogPosts = []blogPost{
+	{ID: "1", Title: "Blue Train", Author: "John Coltrane", Content: "Something"},
+	{ID: "2", Title: "Jeru", Author: "Gerry Mulligan", Content: "Something"},
+	{ID: "3", Title: "Sarah Vaughan and Clifford Brown", Author: "Sarah Vaughan", Content: "Something"},
+}
+
+func GetBlogs() gin.HandlerFunc{
 	return func(c *gin.Context) {
-		c.JSON(http.StatusOK, map[string]string{
-			"hello": "world",
-		})
+	c.IndentedJSON(http.StatusOK, blogPosts)
 	}
 }
