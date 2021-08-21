@@ -38,3 +38,18 @@ func PostBlogs() gin.HandlerFunc {
 		c.IndentedJSON(http.StatusCreated, newBlog)
 	}
 }
+
+func GetBlogByID() gin.HandlerFunc {
+
+	return func(c *gin.Context) {
+		id := c.Param("id")
+
+		for _, b := range blogPosts {
+			if b.ID == id {
+				c.IndentedJSON(http.StatusOK, b)
+				return
+			}
+		}
+		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "blog not found"})
+	}
+}

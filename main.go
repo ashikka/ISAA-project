@@ -10,6 +10,7 @@ import (
 func main() {
 	router := gin.Default()
 	router.GET("/blogs", controllers.GetBlogs())
+	router.GET("/blogs/:id", controllers.GetBlogByID())
 	router.POST("/blogs", controllers.PostBlogs())
 
 	router.Run(utils.GoDotEnvVariable("BACKEND_URL"))
