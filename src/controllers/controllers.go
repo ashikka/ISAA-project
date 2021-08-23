@@ -2,13 +2,14 @@ package controllers
 
 import (
 	"ISAA-project/src/models"
+	"ISAA-project/src/utils"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 )
 
-var db *gorm.DB = models.ConnectDB("")
+var db *gorm.DB = models.ConnectDB(utils.GoDotEnvVariable("DB_URL"))
 
 func GetBlogs() gin.HandlerFunc {
 	var blogPosts []models.BlogPost
