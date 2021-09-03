@@ -1,22 +1,26 @@
 package models
 
 import (
+	"ISAA-project/src/utils"
 	"log"
 
-	"github.com/jinzhu/gorm"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
-var db *gorm.DB
-var err error
+var DB *gorm.DB
 
-func ConnectDB(dbURL string) *gorm.DB {
+func ConnectDB() {
 
-	db, err = gorm.Open(dbURL)
+	connection, err := gorm.Open(
+		postgres.Open(utils.GoDotEnvVariable("DB_URL")),
+		&gorm.Config{},
+	)
 
 	if err != nil {
-		log.Fatal("Failed to connect to db")
+		log.Fatalf("DB connection failed")
 	}
-	defer db.Close()
 
-	return db.AutoMigrate(&BlogPost{})
+	DB = connection
+	connection.AutoMigrate(&BlogPost{})
 }
