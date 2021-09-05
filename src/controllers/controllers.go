@@ -6,12 +6,14 @@ import (
 
 	"github.com/gin-gonic/gin"
 )
+
 func Hello() gin.HandlerFunc {
 
 	return func(c *gin.Context) {
 		c.IndentedJSON(http.StatusOK, "hello")
 	}
 }
+
 func GetBlogs() gin.HandlerFunc {
 	var blogPosts []models.BlogPost
 
