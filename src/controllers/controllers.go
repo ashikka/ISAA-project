@@ -15,18 +15,19 @@ func Hello() gin.HandlerFunc {
 }
 
 func GetBlogs() gin.HandlerFunc {
-	var blogPosts []models.BlogPost
 
-	models.DB.Find(&blogPosts)
 	return func(c *gin.Context) {
+		var blogPosts []models.BlogPost
+
+		models.DB.Find(&blogPosts)
 		c.IndentedJSON(http.StatusOK, blogPosts)
 	}
 }
 
 func PostBlogs() gin.HandlerFunc {
-	var newBlog models.BlogPost
 
 	return func(c *gin.Context) {
+		var newBlog models.BlogPost
 
 		if err := c.BindJSON(&newBlog); err != nil {
 			return
@@ -38,28 +39,40 @@ func PostBlogs() gin.HandlerFunc {
 }
 
 func GetBlogByID() gin.HandlerFunc {
-	var blogPosts []models.BlogPost
 
 	return func(c *gin.Context) {
+		var blogPosts []models.BlogPost
+		var blogPost models.BlogPost
+
 		id := c.Param("id")
 
-		models.DB.First(&blogPosts, id)
-		c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Blog not found"})
+		result := models.DB.First(&blogPosts, id)
+		if result.Error != nil {
+
+			c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Blog not found"})
+			return
+		}
+		c.IndentedJSON(http.StatusOK, blogPost)
 	}
 }
 
 func DeleteBlogById() gin.HandlerFunc {
-	var blogPost models.BlogPost
 
 	return func(c *gin.Context) {
+		var blogPosts []models.BlogPost
+		var blogPost models.BlogPost
+
 		id := c.Param("id")
-		models.DB.First(&blogPost, id)
+		result := models.DB.First(&blogPosts, id)
+		if result.Error != nil {
+
+			c.IndentedJSON(http.StatusNotFound, gin.H{"message": "Blog not found"})
+			return
+		}
+
 		models.DB.Delete(&blogPost)
 
-		var blogPosts []models.BlogPost
-		models.DB.Find(&blogPosts)
-
-		c.IndentedJSON(http.StatusNotFound, blogPosts)
+		c.IndentedJSON(http.StatusOK, gin.H{"message": "Blog deleted successfully"})
 
 	}
 }

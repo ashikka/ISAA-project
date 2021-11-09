@@ -19,11 +19,9 @@ func ConnectDB() {
 
 	if err != nil {
 		log.Fatalf("DB connection failed")
-		log.Fatalf("DB connection failed")
-		log.Fatalf("DB connection failed")
 	} 
 
 	DB = connection
 	connection.AutoMigrate(&BlogPost{})
-	log.Fatalf("DB connected successfully")
+	log.Println("DB connected successfully")
 }
